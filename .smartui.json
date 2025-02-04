@@ -12,7 +12,7 @@
       ]
     ],
     "waitForTimeout": 5,
-    "include": ["//src//stories"],
+    "include": [],
     "exclude": [],
     "customViewports": []
   }
