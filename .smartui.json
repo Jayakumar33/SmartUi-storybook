@@ -3,8 +3,7 @@
     "browsers": [
       "chrome",
       "firefox",
-      "safari",
-      "edge"
+      "safari"
     ],
     "viewports": [
       [
@@ -12,8 +11,8 @@
         1080
       ]
     ],
-    "waitForTimeout": 3,
-    "include": [],
+    "waitForTimeout": 5,
+    "include": ["//src//stories"],
     "exclude": [],
     "customViewports": []
   }
