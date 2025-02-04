@@ -83,5 +83,4 @@ jobs:
       - name: Execute Storybook Build
         run: |
           smartui --version
-          smartui config create .smartui.json
           smartui storybook ./storybook-static --config .smartui.json
