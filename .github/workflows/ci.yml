@@ -1,5 +1,55 @@
+# name: Storybook PR Checks
+# on:
+#   pull_request:
+#     branches:
+#       - master
+
+# env:
+#   PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+
+# jobs:
+#   smartui-gihub-action:
+#     name: Execute Storybook build
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v1
+
+#     - name: Find Last CommitId
+#       run: |
+#         API_HOST=https://api.github.com
+#         # Check out the PR branch
+#         git checkout $GITHUB_HEAD_REF
+#         # Get the commit ID of the last commit
+#         COMMIT_ID=$(git rev-parse HEAD)
+#         echo "Last commit ID of PR: $COMMIT_ID"
+#         GITHUB_URL=$API_HOST/repos/$GITHUB_REPOSITORY/statuses/$COMMIT_ID
+#         echo "GITHUB_URL: $GITHUB_URL"
+#         echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV
+   
+#     - name: Install Dependencies
+#       run: |
+#         npm install
+#         npm install @lambdatest/smartui-storybook -g
+
+#     - name: Create storybook static build
+#       run: npm run build-storybook
+
+#     - name: Execute storybook build
+#       run: |
+#         smartui --version
+#         smartui config create .smartui.json
+#         smartui storybook ./storybook-static --config .smartui.json
+
+
+# export PROJECT_TOKEN=550422#bd326254-c303-48b0-8e9d-b16e8194078e#demo_nzme
+
+
+
 name: Storybook PR Checks
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -8,34 +58,30 @@ env:
   PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
 
 jobs:
-  smartui-gihub-action:
+  smartui-github-action:
     name: Execute Storybook build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v2  # Updated to a newer version
 
-    - name: Find Last CommitId
-      run: |
-        API_HOST=https://api.github.com
-        # Check out the PR branch
-        git checkout $GITHUB_HEAD_REF
-        # Get the commit ID of the last commit
-        COMMIT_ID=$(git rev-parse HEAD)
-        echo "Last commit ID of PR: $COMMIT_ID"
-        GITHUB_URL=$API_HOST/repos/$GITHUB_REPOSITORY/statuses/$COMMIT_ID
-        echo "GITHUB_URL: $GITHUB_URL"
-        echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV
-   
-    - name: Install Dependencies
-      run: |
-        npm install
-        npm install @lambdatest/smartui-storybook -g
+      - name: Find Last CommitId
+        run: |
+          API_HOST=https://api.github.com
+          COMMIT_ID=$(git rev-parse HEAD)
+          echo "Last commit ID: $COMMIT_ID"
+          echo "GITHUB_URL=$API_HOST/repos/$GITHUB_REPOSITORY/statuses/$COMMIT_ID" >> $GITHUB_ENV
 
-    - name: Create storybook static build
-      run: npm run build-storybook
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install @lambdatest/smartui-storybook -g
 
-    - name: Execute storybook build
-      run: |
-        smartui --version
-        smartui config create .smartui.json
-        smartui storybook ./storybook-static --config .smartui.json
+      - name: Create Storybook Static Build
+        run: npm run build-storybook
+
+      - name: Execute Storybook Build
+        run: |
+          smartui --version
+          smartui config create .smartui.json
+          smartui storybook ./storybook-static --config .smartui.json
