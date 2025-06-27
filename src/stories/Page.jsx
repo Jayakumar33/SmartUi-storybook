@@ -39,11 +39,6 @@ export const Page = () => {
             Assemble data in the page component from your services. You can mock these services out
             using Storybook.
           </li>
-
-          <li>
-            Assemble data in the page component from your services. You can mock these services out
-            using Storybook.
-          </li>
         </ul>
         <p>
           Get a guided tutorial on component-driven development at{' '}
